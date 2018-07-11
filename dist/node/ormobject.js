@@ -22,8 +22,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 // - https://en.bitcoin.it/wiki/Vanitygen#Use_of_vanitygen_to_try_to_attack_addresses
 var BURN_ADDRESS = 'BurnBurnBurnBurnBurnBurnBurnBurnBurnBurnBurn';
 
-console.log("AFSFAFAFHFLAJFLKAJFLKAFJAL:FJA:LKFJNA:LFNAOPFNAFS");
-
 var OrmObject = function () {
     function OrmObject(modelName, payload, modelSchema, connection) {
         var appId = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '';

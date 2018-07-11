@@ -4,8 +4,6 @@ import uuid from 'uuid/v4'
 // - https://en.bitcoin.it/wiki/Vanitygen#Use_of_vanitygen_to_try_to_attack_addresses
 const BURN_ADDRESS = 'BurnBurnBurnBurnBurnBurnBurnBurnBurnBurnBurn'
 
-console.log("AFSFAFAFHFLAJFLKAJFLKAFJAL:FJA:LKFJNA:LFNAOPFNAFS")
-
 export default class OrmObject {
     constructor(modelName, payload, modelSchema, connection, appId = '', transactionList = []) {
         this._name = modelName

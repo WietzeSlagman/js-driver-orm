@@ -43,12 +43,15 @@ test('Retrieve asset', t => {
         .then(res => t.deepEqual(res[0].data, expected))
 })
 
+
 test('Append asset', t => {
     const expected = {
         key: 'dataValue',
         keyToUpdate: 'updatedDataValue',
         newKey: 'newDataValue'
     }
+
+    const payload = {key:'bla', key2:'bla2'}
 
     const bdbOrm = new Orm('http://localhost:9984/api/v1/', {
         app_id: '',
@@ -60,7 +63,7 @@ test('Append asset', t => {
     return bdbOrm.models.myModel
         .create({
             keypair: aliceKeypair,
-            payload: {key:'bla', key2:'bla2'},
+            payload: payload,
             data: { key: 'dataValue', keyToUpdate: 'dataUpdatableValue' }
         })
         .then(asset => asset.append({
@@ -69,6 +72,7 @@ test('Append asset', t => {
             data: { keyToUpdate: 'updatedDataValue', newKey: 'newDataValue' }
         }))
         .then(res => {
+            console.log(res)
             t.deepEqual(res.data, expected)
             t.deepEqual(res.transactionHistory.length, 2)
         })

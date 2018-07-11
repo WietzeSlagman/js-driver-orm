@@ -1,6 +1,6 @@
 {
   "name": "js-driver-bdb-orm",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "A fork of CRAB-based ORM for BigchainDB",
   "homepage": "https://github.com/WietzeSlagman",
   "bugs": "https://github.com/WietzeSlagman/js-driver-orm/issues",
@@ -14,6 +14,7 @@
   "browser": "./dist/browser/bigchaindb-orm.cjs2.min.js",
   "dependencies": {
     "bigchaindb-driver": "^4.0.0",
+    "codecov": "^3.0.4",
     "uuid": "^3.2.1"
   },
   "devDependencies": {

@@ -22,16 +22,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 // - https://en.bitcoin.it/wiki/Vanitygen#Use_of_vanitygen_to_try_to_attack_addresses
 var BURN_ADDRESS = 'BurnBurnBurnBurnBurnBurnBurnBurnBurnBurnBurn';
 
+console.log("AFSFAFAFHFLAJFLKAJFLKAFJAL:FJA:LKFJNA:LFNAOPFNAFS");
+
 var OrmObject = function () {
-    function OrmObject(modelName, modelSchema, connection) {
-        var appId = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
-        var transactionList = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : [];
+    function OrmObject(modelName, payload, modelSchema, connection) {
+        var appId = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '';
+        var transactionList = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : [];
 
         _classCallCheck(this, OrmObject);
 
         this._name = modelName;
-        this._schema = modelSchema;
-        this._connection = connection;
+        this._schema = modelSchema, this._payload = payload, this._connection = connection;
         this._appId = appId;
         if (transactionList.length) {
             this.transactionHistory = transactionList;
@@ -51,7 +52,7 @@ var OrmObject = function () {
             return this._connection.searchAssets('"' + query + '"').then(function (assets) {
                 return Promise.all(assets.map(function (asset) {
                     return _this._connection.getSortedTransactions(asset.id).then(function (txList) {
-                        return new OrmObject(_this._name, _this._schema, _this._connection, _this._appId, txList);
+                        return new OrmObject(_this._name, _this._schema, _this._payload, _this._connection, _this._appId, txList);
                     });
                 }));
             });
@@ -64,14 +65,16 @@ var OrmObject = function () {
             if (inputs === undefined) {
                 console.error('inputs missing');
             }
+            this._payload = inputs.payload;
             var assetPayload = {};
             assetPayload[this._appId + '-' + this._name] = {
                 'schema': this._schema,
-                'id': 'id:' + this._appId + ':' + (0, _v2.default)()
+                'id': 'id:' + this._appId + ':' + (0, _v2.default)(),
+                'payload': this._payload
             };
             return this._connection.createTransaction(inputs.keypair.publicKey, inputs.keypair.privateKey, assetPayload, inputs.data).then(function (tx) {
                 return Promise.resolve(_this2._connection.getSortedTransactions(tx.id).then(function (txList) {
-                    return new OrmObject(_this2._name, _this2._schema, _this2._connection, _this2._appId, txList);
+                    return new OrmObject(_this2._name, _this2._schema, _this2._payload, _this2._connection, _this2._appId, txList);
                 }));
             });
         }
@@ -85,7 +88,7 @@ var OrmObject = function () {
             }
             return this._connection.transferTransaction(this.transactionHistory[this.transactionHistory.length - 1], inputs.keypair.publicKey, inputs.keypair.privateKey, inputs.toPublicKey, inputs.data).then(function () {
                 return Promise.resolve(_this3._connection.getSortedTransactions(_this3.transactionHistory[0].id).then(function (txList) {
-                    return new OrmObject(_this3._name, _this3._schema, _this3._connection, _this3._appId, txList);
+                    return new OrmObject(_this3._name, _this3._schema, _this3._payload, _this3._connection, _this3._appId, txList);
                 }));
             });
         }
@@ -100,7 +103,7 @@ var OrmObject = function () {
 
             return this._connection.transferTransaction(this.transactionHistory[this.transactionHistory.length - 1], inputs.keypair.publicKey, inputs.keypair.privateKey, BURN_ADDRESS, { status: 'BURNED' }).then(function () {
                 return Promise.resolve(_this4._connection.getSortedTransactions(_this4.transactionHistory[0].id).then(function (txList) {
-                    return new OrmObject(_this4._name, _this4._schema, _this4._connection, _this4._appId, txList);
+                    return new OrmObject(_this4._name, _this4._schema, _this4._payload, _this4._connection, _this4._appId, txList);
                 }));
             });
         }

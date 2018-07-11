@@ -13,10 +13,11 @@ export default class Orm {
         this.models = []
         this.driver = driver
     }
-    define(modelName, modelSchema) {
+    define(modelName, payload, modelSchema) {
         this.models[modelName] = new OrmObject(
             modelName,
             modelSchema,
+            payload,
             this.connection,
             this.appId
         )

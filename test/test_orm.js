@@ -16,6 +16,7 @@ test('Create asset with data', t => {
     return bdbOrm.models.myModel
         .create({
             keypair: aliceKeypair,
+            payload: {key:'bla', key2:'bla2'},
             data: expected
         })
         .then(res => t.deepEqual(res.data, expected))
@@ -35,6 +36,7 @@ test('Retrieve asset', t => {
     return bdbOrm.models.myModel
         .create({
             keypair: aliceKeypair,
+            payload: {key:'bla', key2:'bla2'},
             data: expected
         })
         .then(asset => bdbOrm.models.myModel.retrieve(asset.id))
@@ -58,6 +60,7 @@ test('Append asset', t => {
     return bdbOrm.models.myModel
         .create({
             keypair: aliceKeypair,
+            payload: {key:'bla', key2:'bla2'},
             data: { key: 'dataValue', keyToUpdate: 'dataUpdatableValue' }
         })
         .then(asset => asset.append({

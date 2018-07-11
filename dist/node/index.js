@@ -40,8 +40,8 @@ var Orm = function () {
 
     _createClass(Orm, [{
         key: 'define',
-        value: function define(modelName, modelSchema) {
-            this.models[modelName] = new _ormobject2.default(modelName, modelSchema, this.connection, this.appId);
+        value: function define(modelName, payload, modelSchema) {
+            this.models[modelName] = new _ormobject2.default(modelName, modelSchema, payload, this.connection, this.appId);
         }
     }]);
 

@@ -4,10 +4,13 @@ import uuid from 'uuid/v4'
 // - https://en.bitcoin.it/wiki/Vanitygen#Use_of_vanitygen_to_try_to_attack_addresses
 const BURN_ADDRESS = 'BurnBurnBurnBurnBurnBurnBurnBurnBurnBurnBurn'
 
+console.log("AFSFAFAFHFLAJFLKAJFLKAFJAL:FJA:LKFJNA:LFNAOPFNAFS")
+
 export default class OrmObject {
-    constructor(modelName, modelSchema, connection, appId = '', transactionList = []) {
+    constructor(modelName, payload, modelSchema, connection, appId = '', transactionList = []) {
         this._name = modelName
-        this._schema = modelSchema
+        this._schema = modelSchema,
+        this._payload = payload,
         this._connection = connection
         this._appId = appId
         if (transactionList.length) {
@@ -27,6 +30,7 @@ export default class OrmObject {
                             new OrmObject(
                                 this._name,
                                 this._schema,
+                                this._payload,
                                 this._connection,
                                 this._appId,
                                 txList
@@ -37,10 +41,12 @@ export default class OrmObject {
         if (inputs === undefined) {
             console.error('inputs missing')
         }
+        this._payload = inputs.payload
         const assetPayload = {}
         assetPayload[`${this._appId}-${this._name}`] = {
             'schema': this._schema,
-            'id': `id:${this._appId}:${uuid()}`
+            'id': `id:${this._appId}:${uuid()}`,
+            'payload':this._payload
         }
         return this._connection
             .createTransaction(
@@ -53,6 +59,7 @@ export default class OrmObject {
                 new OrmObject(
                     this._name,
                     this._schema,
+                    this._payload,
                     this._connection,
                     this._appId,
                     txList
@@ -77,6 +84,7 @@ export default class OrmObject {
                         new OrmObject(
                             this._name,
                             this._schema,
+                            this._payload,
                             this._connection,
                             this._appId,
                             txList
@@ -102,6 +110,7 @@ export default class OrmObject {
                         new OrmObject(
                             this._name,
                             this._schema,
+                            this._payload,
                             this._connection,
                             this._appId,
                             txList

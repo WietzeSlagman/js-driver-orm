@@ -23,7 +23,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var BURN_ADDRESS = 'BurnBurnBurnBurnBurnBurnBurnBurnBurnBurnBurn';
 
 var OrmObject = function () {
-    function OrmObject(modelName, payload, modelSchema, connection) {
+    function OrmObject(modelName, modelSchema, payload, connection) {
         var appId = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '';
         var transactionList = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : [];
 

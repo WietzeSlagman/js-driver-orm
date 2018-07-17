@@ -5,7 +5,7 @@ import uuid from 'uuid/v4'
 const BURN_ADDRESS = 'BurnBurnBurnBurnBurnBurnBurnBurnBurnBurnBurn'
 
 export default class OrmObject {
-    constructor(modelName, payload, modelSchema, connection, appId = '', transactionList = []) {
+    constructor(modelName, modelSchema, payload,connection, appId = '', transactionList = []) {
         this._name = modelName
         this._schema = modelSchema,
         this._payload = payload,

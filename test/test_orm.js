@@ -2,7 +2,7 @@ import test from 'ava'
 
 import Orm from '../src/index'
 
-
+/*
 test('Create asset with data', t => {
     const expected = { key: 'dataValue' }
 
@@ -10,6 +10,7 @@ test('Create asset with data', t => {
         app_id: '',
         app_key: ''
     })
+
     bdbOrm.define('myModel', 'https://schema.org/v1/myModel')
     // create a public and private key for Alice
     const aliceKeypair = new bdbOrm.driver.Ed25519Keypair()
@@ -20,9 +21,43 @@ test('Create asset with data', t => {
             data: expected
         })
         .then(res => t.deepEqual(res.data, expected))
+})*/
+
+test('Create within create', t => {
+    let expected = { key: 'dataValue' }
+
+    const bdbOrm = new Orm('http://localhost:9984/api/v1/', {
+        app_id: '',
+        app_key: ''
+    })
+    bdbOrm.define('myModel', 'https://schema.org/v1/myModel')
+    bdbOrm.define('myModeltwee', 'https://schema.org/v1/myModel')
+    // create a public and private key for Alice
+    const aliceKeypair = new bdbOrm.driver.Ed25519Keypair()
+
+    return bdbOrm.models.myModel
+    .create({
+        keypair: aliceKeypair,
+        payload: {key:'bla', key2:'bla2'},
+        data: expected
+    }).then((firstAsset) => {
+        bdbOrm.models.myModeltwee.create({
+            keypair: aliceKeypair,
+            payload: {firstAsset:firstAsset, key2:'bla2'},
+            data: expected
+        }).then((secondAsset)=> {
+            bdbOrm.models.myModeltwee.retrieve(secondAsset.id).then((retrievedSecond) => {
+                console.log(retrievedSecond)
+                bdbOrm.models.myModel.retrieve(retrievedSecond.transactionHistory.data['-myModel'].payload.firstAsset).then((retrievedFirst)=> {
+                    console.log(retrievedFirst)
+                    t.deepEqual('anus', expected)
+                })
+            })
+        })
+    })
 })
 
-
+/*
 test('Retrieve asset', t => {
     const expected = { key: 'dataValue' }
 
@@ -72,7 +107,6 @@ test('Append asset', t => {
             data: { keyToUpdate: 'updatedDataValue', newKey: 'newDataValue' }
         }))
         .then(res => {
-            console.log(res)
             t.deepEqual(res.data, expected)
             t.deepEqual(res.transactionHistory.length, 2)
         })
@@ -103,3 +137,4 @@ test('Burn asset', t => {
                 .outputs[0].public_keys[0], aliceKeypair.publicKey)
         })
 })
+*/
